@@ -92,6 +92,8 @@ export class Ec2SqlServerStack extends Stack {
 
     // Create an asset that will be used as part of User Data to run on first load
     const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/config.sh') });
+    //const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/node_app_config.sh') });
+
     const localPath = ec2Instance.userData.addS3DownloadCommand({
       bucket: asset.bucket,
       bucketKey: asset.s3ObjectKey,
