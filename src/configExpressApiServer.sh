@@ -10,12 +10,17 @@ yum update -y
 echo "Setting up NodeJS Environment"
 curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.nvm/nvm.sh
-echo 'export NVM_DIR="/home/ec2-user/.nvm"' >> /home/ec2-usr/.bashrc
-echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> /home/ec2-user/.bashrc
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Dot source the files to ensure that variables are available within the current shell
 . /home/ec2-user/.nvm/nvm.sh
 . /home/ec2-user/.bashrc
+
+cat <<EOF >> /home/ec2-user/.bashrc
+export NVM_DIR="/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+EOF
 
 # Install NVM, NPM, Node.JS
 nvm install --lts
