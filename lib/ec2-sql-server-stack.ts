@@ -67,6 +67,7 @@ export class Ec2SqlServerStack extends Stack {
     });
     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH Access')
     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'Allow Http Access')
+    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(3001), 'Allow Http Access to Express Server')
 
     const role = new iam.Role(this, 'ec2Role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com')
@@ -91,7 +92,7 @@ export class Ec2SqlServerStack extends Stack {
     });
 
     // Create an asset that will be used as part of User Data to run on first load
-    const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/config.sh') });
+    const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/configExpressApiServer.sh') });
     //const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/node_app_config.sh') });
 
     const localPath = ec2Instance.userData.addS3DownloadCommand({
